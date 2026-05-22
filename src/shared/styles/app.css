@@ -1,0 +1,910 @@
+:root {
+  --ease-out: cubic-bezier(0.25, 0.8, 0.25, 1);
+  --ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
+  --accent: #6c63ff;
+  --accent-soft: rgba(108, 99, 255, 0.12);
+  --radius: 14px;
+  --shadow-sm: 0 4px 14px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 12px 32px rgba(0, 0, 0, 0.1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  overflow-y: scroll;
+}
+
+body {
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  padding: 0;
+  background: #f4f4f4;
+
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+
+  /* SMOOTHED: Upgraded transition curve for buttery dark/light shifting */
+  transition: background 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), 
+              color 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+  backdrop-filter: blur(10px);
+}
+
+.darkBody {
+  background: #181824;
+  color: white;
+}
+
+.topBackground {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 320px;
+  background-image: url("/bg-desktop-dark.jpg");
+  transition: height 0.35s var(--ease-out);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -1;
+}
+
+/* MAIN CONTAINER */
+.container {
+  width: 100%;
+  max-width: 850px;
+  background: white;
+  padding: 22px;
+  border-radius: 16px;
+  box-shadow: var(--shadow-md);
+  transition: background 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out);
+  overflow-x: hidden;
+  animation: containerIn 0.5s var(--ease-out);
+}
+
+@keyframes containerIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* DARK CONTAINER */
+.dark {
+  background: rgba(30,30,30,0.9);
+}
+
+/* TITLE */
+.title {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 32px;
+}
+
+/* TOP SECTION */
+.inputBox {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+.inputMeta {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.inputField {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #666;
+}
+
+.inputField input,
+.inputField select {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  transition: border-color 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out);
+}
+
+.inputField input:focus,
+.inputField select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.inputActions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.addBtn {
+  background: #4caf50 !important;
+  color: white !important;
+  flex: 1;
+  min-width: 120px;
+}
+
+.clearBtn {
+  background: #f44336 !important;
+  color: white !important;
+}
+
+.dark .inputField {
+  color: #aaa;
+}
+
+.dark .inputField input,
+.dark .inputField select {
+  background: #333;
+  color: white;
+  border-color: #555;
+}
+
+/* INPUT */
+input.todoInput {
+  flex: 1;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  /* SMOOTHED */
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+input.todoInput:focus {
+  outline: none;
+  border-color: #4CAF50;
+}
+input.todoInput::placeholder {
+  color: #999;
+}
+input.todoInput:hover {
+  border-color: #999;
+}
+input.todoInput:disabled {
+  background: #eee;
+  color: #999;
+  cursor: not-allowed;
+}
+
+/* DARK INPUT */
+.dark input.todoInput  {
+  background: #333;
+  color: white;
+  border: 1px solid #555;
+}
+
+/* BUTTONS */
+button {
+  border: none;
+  padding: 12px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  /* SMOOTHED */
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ADD BUTTON */
+.inputBox button {
+  background: #4CAF50;
+  color: white;
+}
+.inputBox button:hover {
+  background: #43a047;
+}
+
+/* TODO LIST */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* TODO ITEM */
+.todoItem {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 16px 18px;
+  border-radius: var(--radius);
+  background: #f9f9f9;
+  border: 1px solid transparent;
+  transition: transform 0.25s var(--ease-out), box-shadow 0.25s var(--ease-out),
+    background 0.25s ease, border-color 0.25s ease, opacity 0.25s ease;
+  animation: itemIn 0.35s var(--ease-out) backwards;
+  touch-action: manipulation;
+}
+
+@keyframes itemIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.todoItem:hover:not(.isDragging) {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+  border-color: var(--accent-soft);
+}
+
+.todoItem.isDragging {
+  opacity: 0.45;
+  box-shadow: none;
+}
+
+.todoItem.isCompleted .todoText {
+  text-decoration: line-through;
+  opacity: 0.65;
+}
+
+.todoItem.dragOverlay {
+  box-shadow: var(--shadow-md);
+  border: 2px solid var(--accent);
+  background: white;
+  cursor: grabbing;
+  transform: scale(1.02) rotate(1deg);
+}
+
+.dark .todoItem.dragOverlay {
+  background: #2c2c2c;
+}
+
+.todoLeft {
+  display: flex;
+  align-items: flex-start;
+  gap:14px;
+  flex: 1;
+  min-width: 0;
+}
+.todoLeft input {
+  margin-top: 6px;
+  width: 15px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.todoContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.todoText {
+  display: block;
+  font-size: 18px;
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+.todoMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+  align-items: center;
+}
+
+.categoryTag {
+  font-size: 12px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 600;
+}
+.todoActions {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.editBtn {
+  background: #2196F3;
+  color: white;
+}
+.deleteBtn {
+  background: #f44336;
+  color: white;
+}
+.deleteBtn:hover {
+  background: #d32f2f;
+}
+.editBtn:hover {
+  background: #1976d2;
+}
+
+/* DARK TODO ITEM */
+.dark .todoItem {
+  background: #2c2c2c;
+  color: white;
+}
+
+.dateInput {
+  margin-top: 6px;
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+.priority {
+  margin-top: 6px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.Low { color: #4CAF50; }
+.Medium { color: orange; }
+.High { color: #f44336; }
+
+.taskCounter {
+  margin-bottom: 18px;
+  font-size: 15px;
+  font-weight: bold;
+  opacity: 0.8;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 30px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.05);
+  font-size: 18px;
+  opacity: 0.7;
+}
+
+.searchBox {
+  margin-bottom: 20px;
+}
+.searchBox input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.filters {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.filters button {
+  background: #eee;
+  color: #333;
+  transition: all 0.2s var(--ease-out);
+}
+
+.filters button:hover {
+  background: #ddd;
+  transform: translateY(-1px);
+}
+
+.filters button.filterActive {
+  background: var(--accent);
+  color: white;
+  box-shadow: 0 4px 12px var(--accent-soft);
+}
+
+.dark .filters button {
+  background: #444;
+  color: #eee;
+}
+
+.dark .filters button.filterActive {
+  background: var(--accent);
+}
+
+.dragHint {
+  font-size: 13px;
+  color: #888;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.dark .dragHint {
+  color: #aaa;
+}
+
+.notificationBanner {
+  background: #ff9800;
+  color: white;
+  padding: 14px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  text-align: center;
+  /* SMOOTHED: Smoothed out scaling jumpiness with ease-in-out */
+  animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.015); }
+  100% { transform: scale(1); }
+}
+
+.dateRange {
+  margin-top: 6px;
+  font-size: 14px;
+  opacity: 0.75;
+}
+
+/* DARK MODE BUTTON */
+.darkModeToggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  font-size: 20px;
+  background: #333;
+  color: white;
+  /* SMOOTHED */
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.darkModeToggle:hover {
+  background: #555;
+  transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   CONSOLIDATED SINGLE RESPONSIVE BLOCK
+   All 6 duplicate media breaks cleanly combined into 1 responsive bundle.
+   ========================================================================== */
+@media (max-width: 600px) {
+  body {
+    padding: 20px 12px;
+  }
+
+  .container {
+    padding: 18px;
+  }
+
+  .title {
+    font-size: 26px;
+  }
+
+  .inputBox {
+    flex-direction: column;
+  }
+
+  .inputBox button {
+    width: 100%;
+  }
+
+  /* RESPONSIVE: Stacks your layout vertically cleanly on small devices */
+  .todoItem {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .todoActions {
+    width: 100%;
+    justify-content: flex-end;
+    margin-top: 4px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  .dark .todoActions {
+    border-top-color: rgba(255, 255, 255, 0.05);
+  }
+
+  .filters {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .filters button {
+    flex: 1;
+    min-width: 80px;
+  }
+
+  /* RESPONSIVE: Keeps button within thumb reach and out of title space on phone screens */
+  .darkModeToggle {
+    top: auto;
+    bottom: 20px;
+    right: 20px;
+  }
+}
+
+.dragHandle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  margin: -8px 0;
+  padding: 0;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  transition: background 0.2s var(--ease-out), transform 0.2s var(--ease-out);
+}
+
+.dragHandle:hover:not(:disabled) {
+  background: var(--accent-soft);
+}
+
+.dragHandle:active:not(:disabled) {
+  cursor: grabbing;
+  transform: scale(1.05);
+}
+
+.dragHandle:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.dragIcon {
+  font-size: 22px;
+  color: #999;
+  line-height: 1;
+}
+
+.dark .dragIcon {
+  color: #777;
+}
+
+.rbc-calendar {
+  /* background: white; */
+
+  border-radius: 12px;
+  padding: 10px;
+}
+/* CATEGORY FILTER */
+.categoryFilterBox {
+
+  width: 100%;
+
+  margin: 15px 0;
+
+}
+
+.categoryFilterBox select {
+
+  width: 100%;
+
+  max-width: 100%;
+
+  padding: 12px;
+
+  border-radius: 10px;
+
+  border: 1px solid #ccc;
+
+  font-size: 15px;
+
+  background: white;
+
+  color: #333;
+
+  box-sizing: border-box;
+
+  transition: 0.2s;
+
+}
+
+.categoryFilterBox select:focus {
+
+  outline: none;
+
+  border-color: #4CAF50;
+
+}
+
+.categoryFilterBox select:hover {
+
+  border-color: #999;
+
+}
+
+
+
+/* DARK MODE */
+.dark .categoryFilterBox select {
+
+  background: #333;
+
+  color: white;
+
+  border: 1px solid #555;
+
+}
+
+
+
+/* MOBILE */
+@media (max-width: 600px) {
+
+  .categoryFilterBox select {
+
+    font-size: 14px;
+
+    padding: 10px;
+
+  }
+
+}
+
+
+/* DESKTOP + TABLET */
+@media (min-width: 601px) {
+
+  .container {
+
+    max-width: 850px;
+
+    padding: 24px;
+
+  }
+
+
+
+  .inputBox {
+
+    flex-direction: row;
+
+    align-items: center;
+
+  }
+
+
+
+  .inputBox button {
+
+    width: auto;
+
+    white-space: nowrap;
+
+  }
+
+
+
+  .todoItem {
+
+    flex-direction: row;
+
+    align-items: flex-start;
+
+  }
+
+
+
+  .todoActions {
+
+    width: auto;
+
+    border-top: none;
+
+    padding-top: 0;
+
+    margin-top: 0;
+
+  }
+
+
+
+  .filters {
+
+    flex-wrap: nowrap;
+
+    justify-content: center;
+
+  }
+
+
+
+  .filters button {
+
+    flex: unset;
+
+    min-width: 100px;
+
+  }
+
+
+
+  .searchBox input {
+
+    font-size: 15px;
+
+  }
+
+
+
+  .categoryFilterBox select {
+
+    font-size: 15px;
+
+    padding: 12px;
+
+  }
+
+
+
+  .darkModeToggle {
+
+    top: 20px;
+
+    right: 20px;
+
+    bottom: auto;
+
+  }
+
+}
+
+/* PROGRESS BAR */
+.progressSection {
+
+  margin-bottom: 20px;
+
+}
+
+
+
+.progressInfo {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  margin-bottom: 8px;
+
+  font-weight: bold;
+
+}
+
+
+
+.progressBar {
+
+  width: 100%;
+
+  height: 14px;
+
+  background: #ddd;
+
+  border-radius: 20px;
+
+  overflow: hidden;
+
+}
+
+
+
+.progressFill {
+
+  height: 100%;
+
+  background: linear-gradient(
+    90deg,
+    #4CAF50,
+    #81C784
+  );
+
+  border-radius: 20px;
+
+  transition: width 0.3s ease;
+
+}
+
+.dark .progressBar {
+
+  background: #444;
+
+}
+
+
+.categoryProgressSection {
+
+  margin-bottom: 20px;
+
+}
+
+
+
+.categoryProgressItem {
+  margin-bottom: 14px;
+}
+
+/* TABLET */
+@media (min-width: 601px) and (max-width: 900px) {
+  body {
+    padding: 28px 16px;
+  }
+
+  .container {
+    max-width: 720px;
+    padding: 20px;
+  }
+
+  .topBackground {
+    height: 260px;
+  }
+
+  .inputMeta {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* PHONE */
+@media (max-width: 600px) {
+  .topBackground {
+    height: 180px;
+  }
+
+  .title {
+    font-size: 24px;
+    margin-bottom: 18px;
+  }
+
+  .inputMeta {
+    grid-template-columns: 1fr;
+  }
+
+  .inputActions {
+    flex-direction: column;
+  }
+
+  .inputActions button {
+    width: 100%;
+  }
+
+  .todoText {
+    font-size: 16px;
+  }
+
+  .dragHandle {
+    min-width: 40px;
+    min-height: 40px;
+  }
+
+  .userBar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .notificationBanner {
+    font-size: 14px;
+    padding: 12px;
+  }
+}
+
+/* REDUCED MOTION */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

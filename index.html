@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>todo-app</title>
+  </head>
+ <body>
+
+ <script>
+  const darkMode =
+    JSON.parse(localStorage.getItem("darkMode"));
+
+  if (darkMode) {
+
+    document.body.style.background = "#121212";
+    document.body.style.color = "white";
+
+    document.body.classList.add("darkBody");
+  }
+</script>
+
+  <div id="root"></div>
+
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+</html>

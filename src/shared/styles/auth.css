@@ -1,0 +1,148 @@
+.authPage {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.authCard {
+  width: 100%;
+  max-width: 420px;
+  background: white;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.authTitle {
+  font-size: 28px;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.authSubtitle {
+  text-align: center;
+  color: #666;
+  margin-bottom: 24px;
+}
+
+.authForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.authForm label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.authForm input {
+  padding: 12px 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+.authForm input:focus {
+  outline: none;
+  border-color: #6c63ff;
+  box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.15);
+}
+
+.authButton {
+  margin-top: 8px;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: #6c63ff;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.authButton:hover:not(:disabled) {
+  background: #5a52e0;
+}
+
+.authButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.authError {
+  background: #ffe5e5;
+  color: #c0392b;
+  padding: 10px 12px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+.authFooter {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+}
+
+.authFooter a {
+  color: #6c63ff;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.authLoading {
+  text-align: center;
+  font-size: 18px;
+  color: #666;
+}
+
+.userBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.userBar span {
+  font-size: 14px;
+  color: #666;
+}
+
+.logoutButton {
+  padding: 6px 14px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: transparent;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.logoutButton:hover {
+  background: #f5f5f5;
+}
+
+.dark .userBar {
+  border-bottom-color: #444;
+}
+
+.dark .userBar span {
+  color: #ccc;
+}
+
+.dark .logoutButton {
+  border-color: #555;
+  color: #eee;
+}
+
+.dark .logoutButton:hover {
+  background: #333;
+}
