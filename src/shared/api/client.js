@@ -1,9 +1,17 @@
 import { getStoredToken } from "../../features/auth/authService";
 
 export function getApiBase() {
-  if (import.meta.env.VITE_API_URL) {
-    return import.meta.env.VITE_API_URL.replace(/\/$/, "");
+  const url = import.meta.env.VITE_API_URL;
+  if (url && url.trim() !== "") {
+    const base = url.replace(/\/$/, "");
+    // If it's an absolute URL and doesn't end with /api, append it
+    // since the backend routes are prefixed with /api
+    if (base.startsWith("http") && !base.endsWith("/api")) {
+      return `${base}/api`;
+    }
+    return base;
   }
+  // Default to relative /api for Vite proxy and Vercel rewrites
   return "/api";
 }
 
